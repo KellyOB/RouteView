@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		BE25025C24A6AFEA00BD5802 /* RouteTaken.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE25025B24A6AFEA00BD5802 /* RouteTaken.swift */; };
+		BE25025C24A6AFEA00BD5802 /* Route.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE25025B24A6AFEA00BD5802 /* Route.swift */; };
 		BE48F84724A517A600610F5E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE48F84624A517A600610F5E /* AppDelegate.swift */; };
 		BE48F84924A517A600610F5E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE48F84824A517A600610F5E /* SceneDelegate.swift */; };
 		BE48F84B24A517A600610F5E /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE48F84A24A517A600610F5E /* ViewController.swift */; };
@@ -18,7 +18,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		BE25025B24A6AFEA00BD5802 /* RouteTaken.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteTaken.swift; sourceTree = "<group>"; };
+		BE25025B24A6AFEA00BD5802 /* Route.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Route.swift; sourceTree = "<group>"; };
 		BE48F84324A517A600610F5E /* RouteView.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RouteView.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BE48F84624A517A600610F5E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BE48F84824A517A600610F5E /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -92,7 +92,7 @@
 		BE48F85C24A519D800610F5E /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				BE25025B24A6AFEA00BD5802 /* RouteTaken.swift */,
+				BE25025B24A6AFEA00BD5802 /* Route.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -170,7 +170,7 @@
 			files = (
 				BE48F85E24A51A1100610F5E /* RoundButton.swift in Sources */,
 				BE48F84B24A517A600610F5E /* ViewController.swift in Sources */,
-				BE25025C24A6AFEA00BD5802 /* RouteTaken.swift in Sources */,
+				BE25025C24A6AFEA00BD5802 /* Route.swift in Sources */,
 				BE48F84724A517A600610F5E /* AppDelegate.swift in Sources */,
 				BE48F84924A517A600610F5E /* SceneDelegate.swift in Sources */,
 			);
@@ -323,7 +323,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.kismetdevelopment.RouteView";
+				PRODUCT_BUNDLE_IDENTIFIER = com.kismetdevelopment.RouteView;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -341,7 +341,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.kismetdevelopment.RouteView";
+				PRODUCT_BUNDLE_IDENTIFIER = com.kismetdevelopment.RouteView;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

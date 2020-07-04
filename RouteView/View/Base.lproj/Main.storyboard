@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15705" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
-    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <device id="retina4_0" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15706"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
@@ -12,14 +12,14 @@
             <objects>
                 <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="RouteView" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" showsUserLocation="YES" translatesAutoresizingMaskIntoConstraints="NO" id="9nF-p8-HZ1">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                                <rect key="frame" x="10" y="50" width="300" height="388"/>
                             </mapView>
                             <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="rqa-hG-QRJ">
-                                <rect key="frame" x="128" y="767" width="158" height="75"/>
+                                <rect key="frame" x="81" y="473" width="158" height="75"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="54c-K7-a8t" customClass="RoundButton" customModule="RouteView" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="0.0" width="75" height="75"/>
@@ -52,7 +52,7 @@
                                 </subviews>
                             </stackView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="keO-hB-7t6">
-                                <rect key="frame" x="344" y="64" width="50" height="50"/>
+                                <rect key="frame" x="270" y="0.0" width="50" height="50"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="50" id="0MW-5a-aLL"/>
                                     <constraint firstAttribute="height" constant="50" id="GMw-Fb-qrk"/>
@@ -65,22 +65,30 @@
                                     <action selector="resetMapCenter:" destination="BYZ-38-t0r" eventType="touchUpInside" id="jW7-Qk-Owj"/>
                                 </connections>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aG9-kK-nGf">
+                                <rect key="frame" x="139" y="446" width="0.0" height="0.0"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
                             <constraint firstItem="rqa-hG-QRJ" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="EP7-BG-ufn"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="rqa-hG-QRJ" secondAttribute="bottom" constant="20" id="G0o-sG-SHj"/>
-                            <constraint firstItem="keO-hB-7t6" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="20" id="Ith-hZ-22l"/>
-                            <constraint firstAttribute="bottom" secondItem="9nF-p8-HZ1" secondAttribute="bottom" id="MGc-2a-Ey2"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="keO-hB-7t6" secondAttribute="trailing" constant="20" id="QjU-K0-sL9"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="9nF-p8-HZ1" secondAttribute="trailing" id="hcc-kb-ft8"/>
-                            <constraint firstItem="9nF-p8-HZ1" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="i5d-Nw-ntb"/>
-                            <constraint firstItem="9nF-p8-HZ1" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="ohS-KP-MEd"/>
+                            <constraint firstItem="keO-hB-7t6" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="Ith-hZ-22l"/>
+                            <constraint firstAttribute="bottom" secondItem="9nF-p8-HZ1" secondAttribute="bottom" constant="130" id="MGc-2a-Ey2"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="keO-hB-7t6" secondAttribute="trailing" id="QjU-K0-sL9"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="9nF-p8-HZ1" secondAttribute="trailing" constant="10" id="hcc-kb-ft8"/>
+                            <constraint firstItem="9nF-p8-HZ1" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="10" id="i5d-Nw-ntb"/>
+                            <constraint firstItem="9nF-p8-HZ1" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="50" id="ohS-KP-MEd"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <connections>
                         <outlet property="centerOnLocationButton" destination="keO-hB-7t6" id="LgH-im-mSr"/>
+                        <outlet property="distanceLabel" destination="aG9-kK-nGf" id="1Rx-a0-sBK"/>
                         <outlet property="endRunButton" destination="n5u-dJ-Vcf" id="w59-mD-9H1"/>
                         <outlet property="mapView" destination="9nF-p8-HZ1" id="xHh-JR-oZd"/>
                         <outlet property="startRunButton" destination="54c-K7-a8t" id="rNs-6U-ci5"/>
@@ -92,6 +100,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="location" catalog="system" width="32" height="32"/>
+        <image name="location" catalog="system" width="64" height="56"/>
     </resources>
 </document>
