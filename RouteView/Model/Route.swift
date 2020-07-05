@@ -11,8 +11,6 @@ import MapKit
 
 class Route: NSObject, MKAnnotation {
     let coordinateType: CoordinateType
-    //let title: String? = "We Started Here"
-    //let subtitle: String? = "Tap for directions."
     let coordinate: CLLocationCoordinate2D
     
     

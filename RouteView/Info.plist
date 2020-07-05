@@ -20,6 +20,8 @@
 	<string>1</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>App needs access to your location in order to record and rack your run!</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>App needs access to your location in order to record and rack your run!</string>
 	<key>UIApplicationSceneManifest</key>

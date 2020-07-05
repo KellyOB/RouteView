@@ -25,7 +25,7 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        mapView.delegate = self
+        locationManager.delegate = self
         checkLocationAuthStatus()
     }
 
@@ -44,6 +44,16 @@ class ViewController: UIViewController {
         isRunning = true
         locationManager.allowsBackgroundLocationUpdates = true
         locationManager.startUpdatingLocation()
+        locationManager.pausesLocationUpdatesAutomatically = false
+        //mapView.showsUserLocation = true
+    }
+    
+    func stopLocationUpdates() {
+        isRunning = false
+        startRunButton.isHidden = false
+        endRunButton.isHidden = true
+        locationManager.allowsBackgroundLocationUpdates = false
+        locationManager.stopUpdatingLocation()
     }
     
     func addLocationsToRouteArray(_ locations: [CLLocation]) {
@@ -54,21 +64,13 @@ class ViewController: UIViewController {
         }
     }
     
-    func stop() {
-        isRunning = false
-        startRunButton.isHidden = false
-        endRunButton.isHidden = true
-        locationManager.allowsBackgroundLocationUpdates = false
-        locationManager.stopUpdatingLocation()
-    }
-    
     // MARK: IBActions
     @IBAction func startRunTapped(sender: RoundButton) {
         initiateRun()
     }
     
     @IBAction func endRunButtonPressed(_ sender: RoundButton) {
-        stop()
+        stopLocationUpdates()
         displayRoute()
     }
     
@@ -77,10 +79,71 @@ class ViewController: UIViewController {
     }
 }
 
+//MARK: CLLocation Manager Delegate
+extension ViewController: CLLocationManagerDelegate {
+    func checkLocationAuthStatus() {
+            
+            let status = CLLocationManager.authorizationStatus()
+            
+            if status == .denied || status == .restricted || !CLLocationManager.locationServicesEnabled() {
+                // show alert that they need to allow location data to use some feature of your app
+                return
+            }
+            
+            if status == .notDetermined {
+                locationManager.requestAlwaysAuthorization()
+                return
+            }
+        
+            locationManager.requestLocation()
+            centerMapOnUserLocation()
+        }
+    
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        debugPrint("Error getting location: \(error.localizedDescription)")
+        // TO-DO: call alert to tell user that either location services is off or there is no GPS signal.
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+      if status == .authorizedWhenInUse || status == .authorizedAlways {
+            locationManager.requestLocation()
+      }
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        
+        guard let location = locations.last else { return }
+        let region = MKCoordinateRegion.init(center: location.coordinate, latitudinalMeters: 500, longitudinalMeters: 500)
+        mapView.setRegion(region, animated: true)
+        
+        if isRunning {
+            addLocationsToRouteArray(locations)
+        } else {
+            locationManager.stopUpdatingLocation()
+        }
+    }
+  
+    func centerMapOnUserLocation() {
+        if let location = locationManager.location?.coordinate {
+            let region = MKCoordinateRegion.init(center: location, latitudinalMeters: 800, longitudinalMeters: 800)
+            mapView.setRegion(region, animated: true)
+            mapView.showsUserLocation = true
+        }
+    }
+}
+
 // MARK: Setup MapKit
 extension ViewController: MKMapViewDelegate {
     
     func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
+        
+        let renderer = MKPolylineRenderer(overlay: overlay)
+        renderer.strokeColor = .systemGreen
+        renderer.lineWidth = 5
+        renderer.alpha = 0.8
+        
+        return renderer
+        
 //        let renderer = MKPolylineRenderer(polyline: overlay as! MKPolyline)
 //        renderer.strokeColor = .systemBlue
 //        renderer.lineWidth = 5
@@ -88,14 +151,14 @@ extension ViewController: MKMapViewDelegate {
 //
 //        return renderer
         
-        if let mapPolyline = overlay as? MKPolyline {
-            let polyLineRenderer = MKPolylineRenderer(polyline: mapPolyline)
-            polyLineRenderer.strokeColor = .darkGray
-            polyLineRenderer.lineWidth = 4.0
-            polyLineRenderer.alpha = 0.5
-            return polyLineRenderer
-        }
-        fatalError("Polyline Renderer could not be initialized")
+//        if let mapPolyline = overlay as? MKPolyline {
+//            let polyLineRenderer = MKPolylineRenderer(polyline: mapPolyline)
+//            polyLineRenderer.strokeColor = .darkGray
+//            polyLineRenderer.lineWidth = 4.0
+//            polyLineRenderer.alpha = 0.5
+//            return polyLineRenderer
+//        }
+//        fatalError("Polyline Renderer could not be initialized")
     }
     
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
@@ -124,12 +187,14 @@ extension ViewController: MKMapViewDelegate {
     }
     
     func setupAnnotations() {
+        
+        
         guard let startLocation = locationsPassed.first?.coordinate, let endLocation = locationsPassed.last?.coordinate, locationsPassed.count > 1 else {
             return
         }
         let startAnnotation = Route(coordinateType: .start, coordinate: startLocation)
         let endAnnotation = Route(coordinateType: .end, coordinate: endLocation)
-        
+        mapView.delegate = self
         mapView.addAnnotation(startAnnotation)
         mapView.addAnnotation(endAnnotation)
     }
@@ -140,53 +205,4 @@ extension ViewController: MKMapViewDelegate {
     }
 }
 
-//MARK: CLLocation Manager Delegate
-extension ViewController: CLLocationManagerDelegate {
-    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        
-        guard let location = locations.last else {
-            return
-        }
-        if isRunning {
-            addLocationsToRouteArray(locations)
-        }
-        
-        let region = MKCoordinateRegion.init(center: location.coordinate, latitudinalMeters: 500, longitudinalMeters: 500)
-        mapView.setRegion(region, animated: true)
-    }
-    
-    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-        debugPrint("Error getting location: \(error.localizedDescription)")
-    }
-    
-    func centerMapOnUserLocation() {
-        if let location = locationManager.location?.coordinate {
-            let region = MKCoordinateRegion.init(center: location, latitudinalMeters: 1000, longitudinalMeters: 1000)
-            mapView.setRegion(region, animated: true)
-            mapView.showsUserLocation = true
-     
-        } else {
-            print("3-else. FROM: centerMapOnUserLocation()  -- calls locationManager.stopUpdatingLocation() -- WHY?????????")
-            // ********** NEED TO ADD ERROR MESSAGE FOR USER ****************
-            locationManager.stopUpdatingLocation()
-            //errorView.isHidden = false
-            //errorView.setErrorMessage("Location not found")
-        }
-    }
-    
-    func checkLocationAuthStatus() {
-        locationManager.delegate = self
-        locationManager.desiredAccuracy = kCLLocationAccuracyBest
-        
-        if CLLocationManager.authorizationStatus() == .authorizedWhenInUse {
-            // CONFIRM THIS IS OK ?????????
-            mapView.showsUserLocation = true
-            
-            locationManager.requestLocation()
-            centerMapOnUserLocation()
-        } else {
-            locationManager.requestLocation()
-        //LocationService.instance.locationManager.requestWhenInUseAuthorization()
-        }
-    }
-}
+
