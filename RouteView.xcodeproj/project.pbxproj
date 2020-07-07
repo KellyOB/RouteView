@@ -14,7 +14,7 @@
 		BE48F84E24A517A600610F5E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BE48F84C24A517A600610F5E /* Main.storyboard */; };
 		BE48F85024A517B000610F5E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BE48F84F24A517B000610F5E /* Assets.xcassets */; };
 		BE48F85324A517B000610F5E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BE48F85124A517B000610F5E /* LaunchScreen.storyboard */; };
-		BE48F85E24A51A1100610F5E /* RoundButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE48F85D24A51A1100610F5E /* RoundButton.swift */; };
+		BE48F85E24A51A1100610F5E /* RoundedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE48F85D24A51A1100610F5E /* RoundedView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -27,7 +27,7 @@
 		BE48F84F24A517B000610F5E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		BE48F85224A517B000610F5E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		BE48F85424A517B000610F5E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		BE48F85D24A51A1100610F5E /* RoundButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundButton.swift; sourceTree = "<group>"; };
+		BE48F85D24A51A1100610F5E /* RoundedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundedView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -84,7 +84,7 @@
 			isa = PBXGroup;
 			children = (
 				BE48F84C24A517A600610F5E /* Main.storyboard */,
-				BE48F85D24A51A1100610F5E /* RoundButton.swift */,
+				BE48F85D24A51A1100610F5E /* RoundedView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -168,7 +168,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BE48F85E24A51A1100610F5E /* RoundButton.swift in Sources */,
+				BE48F85E24A51A1100610F5E /* RoundedView.swift in Sources */,
 				BE48F84B24A517A600610F5E /* ViewController.swift in Sources */,
 				BE25025C24A6AFEA00BD5802 /* Route.swift in Sources */,
 				BE48F84724A517A600610F5E /* AppDelegate.swift in Sources */,

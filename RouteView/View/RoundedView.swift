@@ -6,19 +6,19 @@
 //  Copyright © 2020 Kismet Development. All rights reserved.
 //
 
+
 import UIKit
 
-class RoundButton: UIButton {
+class RoundedView: UIView {
 
     override func awakeFromNib() {
-        self.layer.cornerRadius = self.frame.height / 2
+        self.layer.cornerRadius = 10.0
+        self.clipsToBounds = true
         
         self.layer.shadowRadius = 20
         self.layer.shadowOpacity = 0.5
         
         self.layer.shadowColor = UIColor.black.cgColor
-        //self.setTitle("Start Run", for: .normal)
-        self.tintColor = .systemGreen
     }
 
 }
