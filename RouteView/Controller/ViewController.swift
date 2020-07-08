@@ -11,18 +11,20 @@ import MapKit
 
 class ViewController: UIViewController {
     
+    @IBOutlet weak var shadowView: ShadowView!
     @IBOutlet weak var roundedView: RoundedView!
+    @IBOutlet weak var informationView: RoundedView!
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var startRunButton: UIButton!
     @IBOutlet weak var endRunButton: UIButton!
     @IBOutlet weak var centerOnLocationButton: UIButton!
+    
     @IBOutlet weak var distanceLabel: UILabel!
     @IBOutlet weak var stepsLabel: UILabel!
     @IBOutlet weak var timeLabel: UILabel!
     @IBOutlet weak var timeByDistanceLabel: UILabel!
+     @IBOutlet weak var perMinuteLabel: UILabel!
     @IBOutlet weak var segmentControl: UISegmentedControl!
-    @IBOutlet weak var informationView: RoundedView!
-    @IBOutlet weak var perMinuteLabel: UILabel!
     
     var routeDistance = 0.0
     var routeAnnotation: Route?
@@ -36,24 +38,12 @@ class ViewController: UIViewController {
     
     fileprivate var timer: Timer?
     var seconds: Int = 0
-
-    func runTimer() {
-         timer = Timer.scheduledTimer(timeInterval: 1, target: self,   selector: (#selector(ViewController.updateTimer)), userInfo: nil, repeats: true)
-        
-        
-        
-    }
-
-    @objc func updateTimer() {
-        seconds += 1
-    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         mapView.delegate = self
         locationManager.delegate = self
         checkLocationAuthStatus()
-        
         informationView.isHidden = true
     }
     
@@ -80,7 +70,7 @@ class ViewController: UIViewController {
         
         //mapView.showsUserLocation = true
     }
-    
+        
     func stopLocationUpdates() {
         isRunning = false
         startRunButton.isHidden = false
@@ -88,6 +78,8 @@ class ViewController: UIViewController {
         locationManager.allowsBackgroundLocationUpdates = false
         locationManager.stopUpdatingLocation()
         calculateDistance()
+        timeLabel.text = convertTime()
+        calculateTimePerDistance()
     }
     
     func addLocationsToRouteArray(_ locations: [CLLocation]) {
@@ -109,24 +101,24 @@ class ViewController: UIViewController {
         
         distanceLabel.text = String(format: "%.2f Mi", routeDistance * 0.000621371)
         stepsLabel.text = String(format: "%.0f", routeDistance)
-        timeLabel.text = convertTime()
-        calculateTime()
-        
     }
     
-    func calculateTime() {
-        let hour = seconds / 3600
-        let pace = (routeDistance * 0.000621371) / Double(hour)
-        print("**************************\(pace)")
-//        var paceInMinutes = Double(seconds) / 60.0
-//        var roundedMinutes = Double(floor(paceInMinutes))
-//        var decimalSeconds = paceInMinutes - roundedMinutes
-//        var intPace = Int(floor(roundedMinutes))
-//        var seconds = Int(floor(decimalSeconds * 60))
-        timeByDistanceLabel.text = String(format: "%.0f", pace)
+    func runTimer() {
+         timer = Timer.scheduledTimer(timeInterval: 1, target: self,   selector: (#selector(ViewController.updateTimer)), userInfo: nil, repeats: true)
+    }
+
+    @objc func updateTimer() {
+        seconds += 1
     }
     
-    func convertTime() -> String{
+    func calculateTimePerDistance() {
+        let minutes = seconds / 60
+        let miles = routeDistance * 0.000621371
+        let pace = Double(minutes) / miles
+        timeByDistanceLabel.text = String(format: "%.2f", pace)
+    }
+    
+    func convertTime() -> String {
         let duration: TimeInterval = TimeInterval(seconds)
 
         let formatter = DateComponentsFormatter()
@@ -161,13 +153,81 @@ class ViewController: UIViewController {
         if sender.selectedSegmentIndex == 0 {
             isMiles = true
             distanceLabel.text = String(format: "%.2f Mi", routeDistance * 0.000621371)
-            perMinuteLabel.text = "Mile/Min"
+            perMinuteLabel.text = "Minute Mile"
         } else {
             isMiles = false
             distanceLabel.text = String(format: "%.2f Km", routeDistance / 1000)
-            perMinuteLabel.text = "Km/Min"
+            perMinuteLabel.text = "Minute Km"
         }
     }
+    
+    @IBAction func shareButtonPressed(_ sender: Any) {
+        //saves image to photo library
+        var image :UIImage?
+        let currentLayer = UIApplication.shared.windows.first!.layer
+        let currentScale = UIScreen.main.scale
+        UIGraphicsBeginImageContextWithOptions(currentLayer.frame.size, false, currentScale);
+        guard let currentContext = UIGraphicsGetCurrentContext() else {return}
+        currentLayer.render(in: currentContext)
+        image = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        guard let img = image else { return }
+        UIImageWriteToSavedPhotosAlbum(img, nil, nil, nil)
+        
+        let activityVC = UIActivityViewController(activityItems: ["Check out my route!", image as Any], applicationActivities: nil)
+        
+        activityVC.excludedActivityTypes = [
+            UIActivity.ActivityType.assignToContact,
+            UIActivity.ActivityType.print,
+            UIActivity.ActivityType.airDrop,
+            UIActivity.ActivityType.copyToPasteboard,
+            UIActivity.ActivityType.addToReadingList,
+            UIActivity.ActivityType.saveToCameraRoll,
+            UIActivity.ActivityType.openInIBooks,
+            UIActivity.ActivityType(rawValue: "com.apple.reminders.RemindersEditorExtension"),
+            UIActivity.ActivityType(rawValue: "com.apple.mobilenotes.SharingExtension"),
+            UIActivity.ActivityType(rawValue: "com.apple.mobileslideshow.StreamShareService")
+        ]
+        
+        activityVC.popoverPresentationController?.sourceView = self.view
+        self.present(activityVC, animated: true, completion: nil)
+        // open iMessage to send image
+
+        
+//        let imageToShare = self.view.toImage()
+//
+//        let activityItems : NSMutableArray = []
+//        activityItems.add(imageToShare)
+//
+//
+//          let activityVC = UIActivityViewController(activityItems:activityItems as [AnyObject] , applicationActivities: nil)
+//        self.present(activityVC, animated: true, completion: nil)
+       
+    }
+    
+//    func makeImage(withView view: UIView) -> UIImage? {
+//
+//        let rect = view.bounds
+//
+//        UIGraphicsBeginImageContextWithOptions(rect.size, true, 0)
+//
+//        guard let context = UIGraphicsGetCurrentContext() else {
+//          assertionFailure()
+//          return nil
+//        }
+//
+//        view.layer.render(in: context)
+//
+//        guard let image = UIGraphicsGetImageFromCurrentImageContext() else {
+//          assertionFailure()
+//          return nil
+//        }
+//
+//        UIGraphicsEndImageContext()
+//
+//        return image
+//    }
+//
 }
 
 //MARK: CLLocation Manager Delegate
@@ -238,7 +298,7 @@ extension ViewController: CLLocationManagerDelegate {
     
     func centerMapOnUserLocation() {
         if let location = locationManager.location?.coordinate {
-            let region = MKCoordinateRegion.init(center: location, latitudinalMeters: 800, longitudinalMeters: 800)
+            let region = MKCoordinateRegion.init(center: location, latitudinalMeters: 500, longitudinalMeters: 500)
             mapView.setRegion(region, animated: true)
             mapView.showsUserLocation = true
         }
@@ -300,4 +360,16 @@ extension ViewController: MKMapViewDelegate {
     }
 }
 
+////UIView extension which converts the UIView into an image.
+//extension UIView {
+//    func toImage() -> UIImage {
+//        UIGraphicsBeginImageContextWithOptions(bounds.size, false, UIScreen.main.scale)
+//
+//        drawHierarchy(in: self.bounds, afterScreenUpdates: true)
+//
+//        let image = UIGraphicsGetImageFromCurrentImageContext()!
+//        UIGraphicsEndImageContext()
+//        return image
+//    }
+//}
 

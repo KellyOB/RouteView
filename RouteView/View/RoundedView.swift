@@ -6,19 +6,12 @@
 //  Copyright © 2020 Kismet Development. All rights reserved.
 //
 
-
 import UIKit
 
 class RoundedView: UIView {
 
     override func awakeFromNib() {
-        self.layer.cornerRadius = 10.0
         self.clipsToBounds = true
-        
-        self.layer.shadowRadius = 20
-        self.layer.shadowOpacity = 0.5
-        
-        self.layer.shadowColor = UIColor.black.cgColor
+        self.layer.cornerRadius = 15.0
     }
-
 }

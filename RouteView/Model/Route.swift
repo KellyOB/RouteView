@@ -12,8 +12,7 @@ import MapKit
 class Route: NSObject, MKAnnotation {
     let coordinateType: CoordinateType
     let coordinate: CLLocationCoordinate2D
-    
-    
+        
     init(coordinateType: CoordinateType, coordinate: CLLocationCoordinate2D) {
         self.coordinate = coordinate
         self.coordinateType = coordinateType
