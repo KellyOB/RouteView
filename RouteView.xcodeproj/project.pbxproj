@@ -16,6 +16,7 @@
 		BE48F85324A517B000610F5E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BE48F85124A517B000610F5E /* LaunchScreen.storyboard */; };
 		BE48F85E24A51A1100610F5E /* RoundedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE48F85D24A51A1100610F5E /* RoundedView.swift */; };
 		BE98BC3124B64947005C6232 /* ShadowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE98BC3024B64947005C6232 /* ShadowView.swift */; };
+		BE98BC3324B65DE5005C6232 /* Int+ConvertTime.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE98BC3224B65DE5005C6232 /* Int+ConvertTime.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,6 +31,7 @@
 		BE48F85424A517B000610F5E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BE48F85D24A51A1100610F5E /* RoundedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundedView.swift; sourceTree = "<group>"; };
 		BE98BC3024B64947005C6232 /* ShadowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShadowView.swift; sourceTree = "<group>"; };
+		BE98BC3224B65DE5005C6232 /* Int+ConvertTime.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Int+ConvertTime.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -64,6 +66,7 @@
 			children = (
 				BE48F84624A517A600610F5E /* AppDelegate.swift */,
 				BE48F84824A517A600610F5E /* SceneDelegate.swift */,
+				BE98BC3424B65DEB005C6232 /* Extensions */,
 				BE48F85C24A519D800610F5E /* Model */,
 				BE48F85A24A519C000610F5E /* Controller */,
 				BE48F85B24A519CE00610F5E /* View */,
@@ -98,6 +101,14 @@
 				BE25025B24A6AFEA00BD5802 /* Route.swift */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		BE98BC3424B65DEB005C6232 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				BE98BC3224B65DE5005C6232 /* Int+ConvertTime.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -176,6 +187,7 @@
 				BE48F84B24A517A600610F5E /* ViewController.swift in Sources */,
 				BE25025C24A6AFEA00BD5802 /* Route.swift in Sources */,
 				BE48F84724A517A600610F5E /* AppDelegate.swift in Sources */,
+				BE98BC3324B65DE5005C6232 /* Int+ConvertTime.swift in Sources */,
 				BE48F84924A517A600610F5E /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

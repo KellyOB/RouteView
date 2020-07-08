@@ -15,7 +15,7 @@ class ShadowView: UIView {
         self.layer.cornerRadius = 15.0
         self.layer.shadowRadius = 7
         self.layer.shadowOffset = .zero
-        self.layer.shadowOpacity = 0.5
+        self.layer.shadowOpacity = 0.8
         self.layer.shadowColor = UIColor.black.cgColor
     }
 }

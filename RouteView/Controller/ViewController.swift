@@ -27,7 +27,6 @@ class ViewController: UIViewController {
     @IBOutlet weak var segmentControl: UISegmentedControl!
     
     var routeDistance = 0.0
-    var routeAnnotation: Route?
     var locationsPassed = [CLLocation]()
     let locationManager = CLLocationManager()
     var isRunning = false
@@ -50,8 +49,6 @@ class ViewController: UIViewController {
     func initiateRun() {
         startRunButton.isHidden = true
         endRunButton.isHidden = false
-        // distance = Measurement(value: 0, unit: UnitLength.meters)
-        //distanceTraveled = 0
         distanceLabel.text = ""
         locationsPassed.removeAll()
         route = nil
@@ -67,8 +64,6 @@ class ViewController: UIViewController {
         locationManager.allowsBackgroundLocationUpdates = true
         locationManager.startUpdatingLocation()
         locationManager.pausesLocationUpdatesAutomatically = false
-        
-        //mapView.showsUserLocation = true
     }
         
     func stopLocationUpdates() {
@@ -78,7 +73,7 @@ class ViewController: UIViewController {
         locationManager.allowsBackgroundLocationUpdates = false
         locationManager.stopUpdatingLocation()
         calculateDistance()
-        timeLabel.text = convertTime()
+        timeLabel.text = seconds.convertTime()
         calculateTimePerDistance()
     }
     
@@ -115,23 +110,13 @@ class ViewController: UIViewController {
         let minutes = seconds / 60
         let miles = routeDistance * 0.000621371
         let pace = Double(minutes) / miles
-        timeByDistanceLabel.text = String(format: "%.2f", pace)
+        if pace > 0.00 {
+            timeByDistanceLabel.text = String(format: "%.2f", pace)
+        } else {
+            timeByDistanceLabel.text = "N/A"
+        }
     }
-    
-    func convertTime() -> String {
-        let duration: TimeInterval = TimeInterval(seconds)
 
-        let formatter = DateComponentsFormatter()
-        formatter.unitsStyle = .positional // Use the appropriate positioning for the current locale
-        formatter.allowedUnits = [ .hour, .minute, .second ] // Units to display in the formatted string
-        formatter.zeroFormattingBehavior = [ .pad ] // Pad with zeroes where appropriate for the locale
-
-        let formattedDuration = formatter.string(from: duration)
-        return formattedDuration!
-    }
-    
-    
-    
     // MARK: IBActions
     @IBAction func startRunTapped(sender: RoundedView) {
         initiateRun()
@@ -140,7 +125,6 @@ class ViewController: UIViewController {
     
     @IBAction func endRunButtonPressed(_ sender: RoundedView) {
         stopLocationUpdates()
-        informationView.isHidden = false
         displayRoute()
         timer?.invalidate()
     }
@@ -191,43 +175,7 @@ class ViewController: UIViewController {
         
         activityVC.popoverPresentationController?.sourceView = self.view
         self.present(activityVC, animated: true, completion: nil)
-        // open iMessage to send image
-
-        
-//        let imageToShare = self.view.toImage()
-//
-//        let activityItems : NSMutableArray = []
-//        activityItems.add(imageToShare)
-//
-//
-//          let activityVC = UIActivityViewController(activityItems:activityItems as [AnyObject] , applicationActivities: nil)
-//        self.present(activityVC, animated: true, completion: nil)
-       
     }
-    
-//    func makeImage(withView view: UIView) -> UIImage? {
-//
-//        let rect = view.bounds
-//
-//        UIGraphicsBeginImageContextWithOptions(rect.size, true, 0)
-//
-//        guard let context = UIGraphicsGetCurrentContext() else {
-//          assertionFailure()
-//          return nil
-//        }
-//
-//        view.layer.render(in: context)
-//
-//        guard let image = UIGraphicsGetImageFromCurrentImageContext() else {
-//          assertionFailure()
-//          return nil
-//        }
-//
-//        UIGraphicsEndImageContext()
-//
-//        return image
-//    }
-//
 }
 
 //MARK: CLLocation Manager Delegate
@@ -235,29 +183,25 @@ extension ViewController: CLLocationManagerDelegate {
     func checkLocationAuthStatus() {
         
         let status = CLLocationManager.authorizationStatus()
-        
+
         if status == .denied || status == .restricted || !CLLocationManager.locationServicesEnabled() {
-            openSettingApp(message:NSLocalizedString("Please enable location services to continue using the app", comment: ""))
+            locationAlertMessage()
             return
         }
-        
+
         if status == .notDetermined {
             locationManager.requestAlwaysAuthorization()
             return
         }
-        
         locationManager.requestLocation()
         centerMapOnUserLocation()
     }
     
-    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-        debugPrint("Error getting location: \(error.localizedDescription)")
+    func locationAlertMessage() {
+        let alertController = UIAlertController(title: "Location Services Disabled", message: "Please enable location services for this app.", preferredStyle: .alert)
+        let cancelAction = UIAlertAction(title: "Cancel", style: .default,
+        handler: nil)
         
-    }
-    
-    // Open location settings for app
-    func openSettingApp(message: String) {
-        let alertController = UIAlertController (title: "RouteView", message:message , preferredStyle: .alert)
         
         let settingsAction = UIAlertAction(title: NSLocalizedString("Settings", comment: ""), style: .default) { (_) -> Void in
             guard let settingsUrl = URL(string: UIApplication.openSettingsURLString) else {
@@ -268,13 +212,20 @@ extension ViewController: CLLocationManagerDelegate {
                 UIApplication.shared.open(settingsUrl, options: [:], completionHandler: nil)
             }
         }
-        alertController.addAction(settingsAction)
-        let cancelAction = UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .default, handler: nil)
         alertController.addAction(cancelAction)
+        alertController.addAction(settingsAction)
         
-        present(alertController, animated: true, completion: nil)
+        OperationQueue.main.addOperation {
+            self.present(alertController, animated: true,
+            completion:nil)
+        }
     }
     
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        debugPrint("Error getting location: \(error.localizedDescription)")
+        locationAlertMessage()
+    }
+      
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
         if status == .authorizedWhenInUse || status == .authorizedAlways {
             locationManager.requestLocation()
@@ -330,6 +281,7 @@ extension ViewController: MKMapViewDelegate {
     }
     
     func displayRoute() {
+        informationView.isHidden = false
         var routeCoordinates = [CLLocationCoordinate2D]()
         for location in locationsPassed {
             routeCoordinates.append(location.coordinate)
@@ -359,17 +311,3 @@ extension ViewController: MKMapViewDelegate {
         mapView.removeOverlays(mapView.overlays)
     }
 }
-
-////UIView extension which converts the UIView into an image.
-//extension UIView {
-//    func toImage() -> UIImage {
-//        UIGraphicsBeginImageContextWithOptions(bounds.size, false, UIScreen.main.scale)
-//
-//        drawHierarchy(in: self.bounds, afterScreenUpdates: true)
-//
-//        let image = UIGraphicsGetImageFromCurrentImageContext()!
-//        UIGraphicsEndImageContext()
-//        return image
-//    }
-//}
-
