@@ -163,7 +163,6 @@ class ViewController: UIViewController {
         activityVC.excludedActivityTypes = [
             UIActivity.ActivityType.assignToContact,
             UIActivity.ActivityType.print,
-            UIActivity.ActivityType.airDrop,
             UIActivity.ActivityType.copyToPasteboard,
             UIActivity.ActivityType.addToReadingList,
             UIActivity.ActivityType.saveToCameraRoll,
@@ -198,7 +197,7 @@ extension ViewController: CLLocationManagerDelegate {
     }
     
     func locationAlertMessage() {
-        let alertController = UIAlertController(title: "Location Services Disabled", message: "Please enable location services for this app.", preferredStyle: .alert)
+        let alertController = UIAlertController(title: "Location Services Disabled", message: "Please enable location services for this app in privacy settings.", preferredStyle: .alert)
         let cancelAction = UIAlertAction(title: "Cancel", style: .default,
         handler: nil)
         
