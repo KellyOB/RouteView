@@ -13,7 +13,8 @@ Build a running app.
 
 # Screenshots
 
-<img src = "https://user-images.githubusercontent.com/32715761/99889350-14c95a00-2c09-11eb-9758-36121e3004b7.png" width="200" hspace="10" /> <img src = "https://user-images.githubusercontent.com/32715761/99889414-b3ee5180-2c09-11eb-9fdd-b0c0e056ea49.png" width="200" hspace="30" />
+<img src = "https://user-images.githubusercontent.com/32715761/103488660-52ea9980-4dc3-11eb-827d-2c8c056aa1be.png" width="200" hspace="10" /> <img src = "https://user-images.githubusercontent.com/32715761/103488661-567e2080-4dc3-11eb-88af-2a173510b949.png" width="200" hspace="30" />
+<br /><br /><img src = "https://user-images.githubusercontent.com/32715761/103488662-57af4d80-4dc3-11eb-9ae6-60ace472ff08.png" width="200" hspace="30" />
 
 # Features
 * Swift Programming Language
